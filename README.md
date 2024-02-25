@@ -32,7 +32,7 @@ Requirements:
     .jed files
 
 Usage:
- 1. Connect the PLA to the Arduino as shown on the schematic
+ 1. Connect the PLA to the Arduino as shown on the schematic (See PALDump.h)
  2. Set the constant PALDump::PALType globalPALType to PAL16L8 or PAL20L8
  3. Reupload the project
  4. Connect with the Arduino serial port using a terminal program and save
