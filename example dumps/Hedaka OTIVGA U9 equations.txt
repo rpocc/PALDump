@@ -1,0 +1,13 @@
+# PAL Reader
+# ---------------- ESPRESSO OUTPUT ----------------
+pin19 = (!pin18);
+
+pin17 = (!pin15&pin13&!pin11&pin9&pin8&!pin7&pin6&pin5&pin4) | (!pin16
+    &pin13&!pin11&pin9&pin8&!pin7&pin6&pin5&pin4) | (!pin15&pin13&!pin11
+    &!pin8&pin7&pin6&pin5&pin4) | (!pin16&pin13&!pin11&!pin8&pin7&pin6
+    &pin5&pin4) | (pin13&pin3&!pin2&pin1);
+
+pin14 = (!pin16&!pin11);
+
+pin12 = (!pin15&!pin11);
+

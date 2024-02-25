@@ -1,0 +1,53 @@
+# PAL Reader by Dmitry Shtatnov. Version 0.3
+# Please wait. Analyzing PAL...
+# Analyzing inputs...
+# Input 1
+# Input 2
+# Input 3
+# Input 4
+# Input 5
+# Input 6
+# Input 7
+# Input 8
+# Input 9
+# Input 10
+# Input 11
+# Input 12
+# Input 13
+# Input 14
+# Input 15
+# Input 16
+# Input 17
+# Input 18
+# Input 19
+# Input 20
+# Analyzing outputs...
+# Output 8
+# Output 7
+# Output 6
+# Output 5
+# Output 4
+# Output 3
+# Output 2
+# Output 1
+# ---------------- ESPRESSO OUTPUT ----------------
+p19 = (!p7) | (!p4);
+
+p18 = (p5&p4&!p3) | (p11&!p3) | (p14&!p3) | (!p3&!p1) | (!p6&!p3) | (!p9
+    &!p3) | (p10&!p3);
+
+p17 = (p5&p4&!p3) | (p8&p5) | (p5&!p4) | (p11&!p3) | (p14&!p3) | (!p3&!p1) | (
+    !p6&!p3) | (!p9&!p3) | (p10&!p3);
+
+p16 = ;
+
+p15 = (!p14&!p11&!p10&p9&p6&!p4&p1) | (!p14&!p11&!p10&p9&p6&!p5&p1) | (
+    !p7&p5&p4&p3) | (!p10&!p7&p3&p1) | (!p13&!p7&p3) | (!p7&!p6&p3) | (
+    !p9&!p7&p3);
+
+p14 = (p13&p9&p6&!p5&!p1) | (p13&p10&p9&p6&!p5) | (p13&p9&p6&!p4&!p1) | (
+    p13&p10&p9&p6&!p4);
+
+p12 = (p13&!p14&!p11&!p10&p9&p6&!p4&!p2&p1) | (p13&!p14&!p11&!p10&!p9&!p6
+    &!p4&!p2) | (!p23);
+
