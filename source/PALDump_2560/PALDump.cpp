@@ -1,6 +1,6 @@
 #include "PALDump.h"
 
-PALDump::PALDump(PALType type, uint8_t *port1, uint8_t *port2, uint8_t *port3, uint8_t maxTries = 1) {
+PALDump::PALDump(PALType type, volatile uint8_t *port1,volatile  uint8_t *port2, volatile uint8_t *port3, uint8_t maxTries) {
   if(maxTries > 4) maxTries = 4;
   if(maxTries < 1) maxTries = 1;
   maxRedundantReads = maxTries;
@@ -30,8 +30,13 @@ PALDump::PALDump(PALType type, uint8_t *port1, uint8_t *port2, uint8_t *port3, u
       break;
   }
 }
-void PALDump::getCombinatorialOutputAsText(uint32_t combination, char *buffer);
-void PALDump::getCombinatorialOutputAsText(char *buffer);
+/*
+void PALDump::getCombinatorialOutputAsText(uint32_t combination, char *buffer) {
+  
+}
+void PALDump::getCombinatorialOutputAsText(char *buffer) {
+  
+}
 
 uint16_t PALDump::getCombinatorialOutput(uint32_t combination) {
   switch(currentPALType) {
@@ -41,6 +46,7 @@ uint16_t PALDump::getCombinatorialOutput(uint32_t combination) {
       break;
   }
 }
+*/
 char PALDump::readPALPin(uint32_t combination, uint8_t bit) {
   char res = '-';
   posMask = 1<<(bit-1);
@@ -59,6 +65,7 @@ char PALDump::readPALPin(uint32_t combination, uint8_t bit) {
       *HWPort1 = BYTE1(combination);
       *HWPort2 = BYTE2(combination);
       *HWPort3 = HI8(ccopy);
+      break;
   }
   *HWPort3 &= IOMask;
   *HWPort3 &= negMask;
@@ -73,6 +80,7 @@ char PALDump::readPALPin(uint32_t combination, uint8_t bit) {
   *HWPort3 = 0;
   return res;
 }
+/*
 uint16_t PALDump::getCombinatorialOutput() {
   return getCombinatorialOutput(sequentialCombination());
 }
@@ -83,6 +91,7 @@ uint32_t PALDump::sequentialCombination() {
   uint32_t o = currentCombination++;
   currentCombination &= (maxCombinations-1);
 }
+*/
 void PALDump::assumeSimple14i8o() {
 Serial.println("# Assumed 14 In / 8 Out configuration, no OE");
   activeOutputs = 8;
@@ -105,7 +114,7 @@ bool PALDump::analyzeOutputs() {
   a = 0; b = 0; c = 0; a2 = 0; b2 = 0; c2 = 0; success = 0;
   char pinState;
   for(uint8_t curPin = 8; curPin>0; curPin--) {
-Serial.print("# Output "); Serial.println(curPin, DEC);
+Serial.print("# Output "); Serial.print(curPin, DEC); Serial.print(" ");
     for(uint8_t t = 0; t<6; t++) {
       for(uint32_t comb = 0; comb<maxCombinations; comb++) {
         pinState = readPALPin(comb, curPin);
@@ -134,6 +143,7 @@ Serial.print("# Output "); Serial.println(curPin, DEC);
     }
     if(success>=maxRedundantReads) {
       palPinConfig[curPin-1] = convertSumToPinType(a2);
+      Serial.println(pinType(convertSumToPinType(a2)));
       switch(palPinConfig[curPin-1]) {
         case Output:
           activeOutputs++;
@@ -155,8 +165,9 @@ bool PALDump::inputIsSignificant(uint8_t in) {
   uint32_t c, c2, pm, nm;
   uint16_t outs[2];
   uint8_t bit0, bitn;
-  pm = 1<<in;
+  pm = (uint32_t)1<<in;
   nm = (pm ^ 0xffffffff) & 0xfffffffe;
+//  Serial.print(" /"); Serial.print(pm, BIN); Serial.print("/"); Serial.print(nm, BIN); Serial.print("/");
   for(c = 0; c<maxCombinations; c++) {
       bit0 = c&1;
       if(in>0) {
@@ -171,7 +182,11 @@ bool PALDump::inputIsSignificant(uint8_t in) {
       outs[bit0] = 0;
     outs[bit0] = getPort(c2).port;
     if(bit0 == 1) {
-      if(outs[0] != outs[1]) return true;
+      if(outs[0] != outs[1]) {
+//        Serial.print(" ("); Serial.print(c, BIN); Serial.print(","); Serial.print(c2, BIN); Serial.print(") ");
+//        Serial.print(" ("); Serial.print(c2, DEC); Serial.print(") ");
+        return true;
+      }
     }
   }
   return false;
@@ -188,12 +203,16 @@ bool PALDump::analyzeInputs() {
   uint32_t checker = 1;
   activeInputs = 0;
   for(uint8_t i = 0; i < maxInputs; i++) {
-Serial.print("# Input "); Serial.println(i+1, DEC);
+    Serial.print("# Input "); Serial.print(i+1, DEC);
     if(inputIsSignificant(i)) {
+      Serial.println(" OK");
       palInputMask |= checker;
       activeInputs++;
     }
-    checker <<= 1;
+    else {
+      Serial.println(" doesn't matter");
+    }
+    checker = (uint32_t)checker << 1;
   }
 /* The next line is logical and kept for further development but currently makes it worse */
 /*  IOMask &= (((uint8_t)palInputMask>>(maxInputs-7)) | 0b10000001); */
@@ -204,6 +223,9 @@ uint8_t PALDump::getActiveOutputs() {
 }
 uint8_t PALDump::getActiveInputs() {
   return activeInputs;
+}
+uint8_t PALDump::getMaxInputs() {
+  return maxInputs;
 }
 uint32_t PALDump::shortToLongCombination(uint32_t combination) {
   volatile uint32_t res = 0;
@@ -225,7 +247,7 @@ uint32_t PALDump::shortToLongCombination(uint32_t combination) {
   return res;
 }
 PALDump::PALWord PALDump::getPort(uint32_t combination) {
-  uint8_t p3Template;
+  volatile uint8_t p3Template;
   PALWord res;
   res.port = 0xffff;
   switch(currentPALType) {
@@ -241,7 +263,7 @@ PALDump::PALWord PALDump::getPort(uint32_t combination) {
       ccopy <<= 2;
       *HWPort1 = BYTE1(combination);
       *HWPort2 = BYTE2(combination);
-      *HWPort3 = HI8(ccopy);
+      p3Template = HI8(ccopy);
       break;
   }
 
@@ -252,64 +274,80 @@ PALDump::PALWord PALDump::getPort(uint32_t combination) {
   *HWPort3 = 0b01111111 & p3Template;
   DDR(*HWPort3) = 0b01111111 & DIR_PAL16L8;
   PROBEPORT |= 1<<PROBEPIN;
+  NOP;
   if((PIN(*HWPort3)&0b10000000) == 0) res.oe8 = 0;
   PROBEPORT &= (1<<PROBEPIN)^255;
+  NOP;
   if((PIN(*HWPort3)&0b10000000) != 0) res.output8 = 0;
 
   // bit 6
   *HWPort3 = 0b10111111 & p3Template;
   DDR(*HWPort3) = 0b10111111 & DIR_PAL16L8;
   PROBEPORT |= 1<<PROBEPIN;
+  NOP;
   if((PIN(*HWPort3)&0b01000000) == 0) res.oe7 = 0;
   PROBEPORT &= (1<<PROBEPIN)^255;
+  NOP;
   if((PIN(*HWPort3)&0b01000000) != 0) res.output7 = 0;
 
   // bit 5
   *HWPort3 = 0b11011111 & p3Template;
   DDR(*HWPort3) = 0b11011111 & DIR_PAL16L8;
   PROBEPORT |= 1<<PROBEPIN;
+  NOP;
   if((PIN(*HWPort3)&0b00100000) == 0) res.oe6 = 0;
   PROBEPORT &= (1<<PROBEPIN)^255;
+  NOP;
   if((PIN(*HWPort3)&0b00100000) != 0) res.output6 = 0;
 
   // bit 4
   *HWPort3 = 0b11101111 & p3Template;
   DDR(*HWPort3) = 0b11101111 & DIR_PAL16L8;
   PROBEPORT |= 1<<PROBEPIN;
+  NOP;
   if((PIN(*HWPort3)&0b00010000) == 0) res.oe5 = 0;
   PROBEPORT &= (1<<PROBEPIN)^255;
+  NOP;
   if((PIN(*HWPort3)&0b00010000) != 0) res.output5 = 0;
 
   // bit 3
   *HWPort3 = 0b11110111 & p3Template;
   DDR(*HWPort3) = 0b11110111 & DIR_PAL16L8;
   PROBEPORT |= 1<<PROBEPIN;
+  NOP;
   if((PIN(*HWPort3)&0b00001000) == 0) res.oe4 = 0;
   PROBEPORT &= (1<<PROBEPIN)^255;
+  NOP;
   if((PIN(*HWPort3)&0b00001000) != 0) res.output4 = 0;
 
   // bit 2
   *HWPort3 = 0b11111011 & p3Template;
   DDR(*HWPort3) = 0b11111011 & DIR_PAL16L8;
   PROBEPORT |= 1<<PROBEPIN;
+  NOP;
   if((PIN(*HWPort3)&0b00000100) == 0) res.oe3 = 0;
   PROBEPORT &= (1<<PROBEPIN)^255;
+  NOP;
   if((PIN(*HWPort3)&0b00000100) != 0) res.output3 = 0;
 
   // bit 1
   *HWPort3 = 0b11111101 & p3Template;
   DDR(*HWPort3) = 0b11111101 & DIR_PAL16L8;
   PROBEPORT |= 1<<PROBEPIN;
+  NOP;
   if((PIN(*HWPort3)&0b00000010) == 0) res.oe2 = 0;
   PROBEPORT &= (1<<PROBEPIN)^255;
+  NOP;
   if((PIN(*HWPort3)&0b00000010) != 0) res.output2 = 0;
 
   // bit 0
   *HWPort3 = 0b11111110 & p3Template;
   DDR(*HWPort3) = 0b11111110 & DIR_PAL16L8;
   PROBEPORT |= 1<<PROBEPIN;
+  NOP;
   if((PIN(*HWPort3)&0b00000001) == 0) res.oe1 = 0;
   PROBEPORT &= (1<<PROBEPIN)^255;
+  NOP;
   if((PIN(*HWPort3)&0b00000001) != 0) res.output1 = 0;
 
   DDR(PROBEPORT) &= (1<<PROBEPIN) ^ 255;
@@ -348,4 +386,8 @@ PALDump::palPinType *PALDump::getPALConfig() {
     palPinConfigCopy[pin] = palPinConfig[pin];
   }
   return (palPinType *)palPinConfigCopy;
+}
+const char *PALDump::pinType(PALDump::palPinType t) {
+  const char * names[4] = {"Output", "Buffered Output", "Input", "Unknown"};
+  return names[(uint8_t)t];
 }

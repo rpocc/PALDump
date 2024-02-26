@@ -109,12 +109,14 @@ class PALDump {
     enum triState:uint8_t {Low = 0, High = 1, HiZ = 3};
     enum PALType:uint8_t {PAL16L8 = 0, PAL20L8 = 1};
 
-    PALDump(PALType type, uint8_t *port1, uint8_t *port2, uint8_t *port3, uint8_t maxTries = 1);
+    PALDump(PALType type, volatile uint8_t *port1, volatile uint8_t *port2, volatile uint8_t *port3, uint8_t maxTries = 1);
+/*
     void getCombinatorialOutputAsText(uint32_t combination, char *buffer);
     void getCombinatorialOutputAsText(char *buffer);
     uint16_t getCombinatorialOutput(uint32_t combination);
     uint16_t getCombinatorialOutput();
     void setCombination(uint32_t combination);
+*/
     char readPALPin(uint32_t combination, uint8_t bit);
     bool analyzePAL();
     bool analyzeInputs();
@@ -125,10 +127,12 @@ class PALDump {
     uint32_t getPALInputMask();
     uint8_t getActiveOutputs();
     uint8_t getActiveInputs();
+    uint8_t getMaxInputs();
     uint32_t shortToLongCombination(uint32_t combination);
     void assumeSimple14i8o();
+    const char *pinType(PALDump::palPinType t);
   private:
-    uint8_t *HWPort1, *HWPort2, *HWPort3;
+    volatile uint8_t *HWPort1, *HWPort2, *HWPort3;
     PALType currentPALType;
     uint8_t currentPalPin; // Then pin being tested/read
     uint8_t posMask; // Mask for the PAL pin being read
