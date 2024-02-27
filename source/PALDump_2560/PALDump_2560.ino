@@ -9,7 +9,7 @@
 
  (See the full description in the README.md)
 
- Version: 1.1
+ Version: 1.2
  Release date: 26.02.2024
  Author: Dmitry Shtatnov (shtatnovda@yandex.ru)
  Date of initial publication: 25.02.2024
@@ -18,8 +18,8 @@
 
 
 /* Uncomment one of the lines according to your needs */
-// # define GLOBAL_PAL_TYPE PAL16L8
-# define GLOBAL_PAL_TYPE PAL20L8
+# define GLOBAL_PAL_TYPE PAL16L8
+// # define GLOBAL_PAL_TYPE PAL20L8
 
 // Three complete ([7..0]) ports, free of shared functions:
 #define GLOBAL_PORT1 PORTA
@@ -55,20 +55,22 @@ void print_full_berkeley();
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  Serial.println("# PAL Reader by Dmitry Shtatnov. Version 1.1");
+  Serial.println("# PAL Reader by Dmitry Shtatnov. Version 1.2");
  
 // Full analysis. Time-consuming for PAL20L8
   PLA.analyzePAL();
-  config = PLA.getPALConfig();
-  totalInputs = PLA.getActiveInputs();
-  totalOutputs = PLA.getActiveOutputs();
-  inputs = PLA.getPALInputMask();
 
 /* The following line can be used instead of analysis when you're
    confident that all outputs are just plain outputs or the analysis
    result got this simple configuration.
 */
 //  PLA.assumeSimple14i8o();
+
+  config = PLA.getPALConfig();
+  totalInputs = PLA.getActiveInputs();
+  totalOutputs = PLA.getActiveOutputs();
+  inputs = PLA.getPALInputMask();
+
   print_berkeley_header();
   print_full_berkeley();
 }
@@ -115,7 +117,6 @@ void print_berkeley_header() {
   Serial.println("# ---------------- BERKELEY OUTPUT ----------------");
   Serial.print(".i "); Serial.println(totalInputs, DEC);
   Serial.print(".o "); Serial.println(totalOutputs, DEC);
-  Serial.print("# Total inputs: "); Serial.println(totalInputs);
   Serial.print(".ilb");
   
   for(uint8_t i = 0; i<PLA.getMaxInputs(); i++) {
@@ -136,19 +137,29 @@ void print_berkeley_header() {
   }
   Serial.println();
   Serial.print(".ob ");
+  uint8_t last_out_pin;
+  switch(globalPALType) {
+    case PALDump::PAL16L8:
+      last_out_pin = 19;
+      break;
+    case PALDump::PAL20L8:
+      last_out_pin = 22;
+      break;
+  }
+      
   for(uint8_t i = 0; i<8; i++) {
     switch(config[7-i]) {
       case PALDump::Output:
         Serial.print("p");
-        Serial.print(19-i, DEC);
+        Serial.print(last_out_pin-i, DEC);
         Serial.print(" ");
         break;
       case PALDump::Buffered:
         Serial.print("p");
-        Serial.print(19-i, DEC);
+        Serial.print(last_out_pin-i, DEC);
         Serial.print(" ");
         Serial.print("p");
-        Serial.print(19-i, DEC);
+        Serial.print(last_out_pin-i, DEC);
         Serial.print("_oe ");
         break;
       default:

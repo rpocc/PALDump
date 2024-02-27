@@ -1,4 +1,3 @@
-#include "PALDump.h"
 
 PALDump::PALDump(PALType type, volatile uint8_t *port1,volatile  uint8_t *port2, volatile uint8_t *port3, uint8_t maxTries) {
   if(maxTries > 4) maxTries = 4;
@@ -61,7 +60,7 @@ char PALDump::readPALPin(uint32_t combination, uint8_t bit) {
       uint16_t ccopy;
       LO8(ccopy) = BYTE2(combination);
       HI8(ccopy) = BYTE3(combination);
-      ccopy <<= 2;
+      ccopy <<= 3;
       *HWPort1 = BYTE1(combination);
       *HWPort2 = BYTE2(combination);
       *HWPort3 = HI8(ccopy);
@@ -260,7 +259,7 @@ PALDump::PALWord PALDump::getPort(uint32_t combination) {
       uint16_t ccopy;
       LO8(ccopy) = BYTE2(combination);
       HI8(ccopy) = BYTE3(combination);
-      ccopy <<= 2;
+      ccopy <<= 3;
       *HWPort1 = BYTE1(combination);
       *HWPort2 = BYTE2(combination);
       p3Template = HI8(ccopy);
