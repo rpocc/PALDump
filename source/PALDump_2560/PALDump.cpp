@@ -1,3 +1,4 @@
+#include "PALDump.h"
 
 PALDump::PALDump(PALType type, volatile uint8_t *port1,volatile  uint8_t *port2, volatile uint8_t *port3, uint8_t maxTries) {
   if(maxTries > 4) maxTries = 4;
