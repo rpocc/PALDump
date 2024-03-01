@@ -1,0 +1,49 @@
+Name     Accton_PN142650 ;
+PartNo   00 ;
+Date     29.02.2024 ;
+Revision 01 ;
+Designer Dmitry Shtatnov ;
+Company  SSSR Labs ;
+Assembly None ;
+Location  ;
+Device   g16v8ma ;
+
+PIN 1 = p1;
+PIN 2 = p2;
+PIN 3 = p3;
+PIN 4 = p4;
+
+PIN 12 = p12;
+PIN 13 = p13;
+PIN 14 = p14;
+PIN 15 = p15;
+PIN 16 = p16;
+PIN 17 = p17;
+PIN 18 = p18;
+PIN 19 = p19;
+
+p19 = !(!p4&p3&p2&p1);
+p19.oe = (p3&p2&p1);
+
+p18 = !(!p4&p3&p2&!p1);
+p18.oe = (p3&p2&!p1);
+
+p17 = !(!p4&p3&!p2&p1);
+p17.oe = (p3&!p2&p1);
+
+p16 = !(!p4&p3&!p2&!p1);
+p16.oe = (p3&!p2&!p1);
+
+p15 = !(!p4&!p3&p2&p1);
+p15.oe = (!p3&p2&p1);
+
+p14 = !(!p4&!p3&p2&!p1);
+p14.oe = (!p3&p2&!p1);
+
+p13 = !(!p4&!p3&!p2&p1);
+p13.oe = (!p3&!p2&p1);
+
+p12 = !(!p4&!p3&!p2&!p1);
+p12.oe = (!p3&!p2&!p1);
+
+

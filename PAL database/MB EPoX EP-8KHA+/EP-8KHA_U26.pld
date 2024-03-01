@@ -1,0 +1,87 @@
+Name     EP8KHAplus_U26 ;
+PartNo   00 ;
+Date     01.03.2024 ;
+Revision 01 ;
+Designer Dmitry Shtatnov ;
+Company  SSSR Labs ;
+Assembly None ;
+Location  ;
+Device   g16v8ma ;
+
+/* Higher hexadecimal digit */
+
+/* Pins 1, 2, 3 are shorted on U26 */
+PIN 1 = p1;
+PIN 2 = p2;
+PIN 3 = p3;
+PIN 4 = CATHODE;
+/* COnnected to U25.19 */
+PIN 5 = p5;
+PIN 6 = BIT0;
+PIN 7 = BIT1;
+PIN 8 = BIT2;
+PIN 9 = BIT3;
+PIN 11 = Cfb;
+
+PIN 12 = C;
+PIN 13 = D;
+PIN 14 = E;
+PIN 15 = G;
+PIN 16 = F;
+PIN 17 = A;
+PIN 18 = B;
+PIN 19 = p19;
+
+p19 =	!(
+	(!p3 & !p2 & !p1) #
+	(CATHODE)
+	);
+
+B =	!(
+	(!BIT3 & BIT2 & !BIT1 & BIT0) #
+	(BIT3 & BIT2 & !BIT1 & !BIT0) #
+	(BIT3 & !BIT2 & BIT1 & BIT0) #
+	(BIT3 & BIT2 & BIT1 & BIT0) #
+	(BIT2 & BIT1 & !BIT0)
+	);
+
+A =	!(
+	(BIT3 & BIT2 & !BIT1 & BIT0) #
+	(BIT3 & !BIT2 & BIT1 & BIT0) #
+	(!BIT3 & !BIT2 & !BIT1 & BIT0) #
+	(!BIT3 & BIT2 & !BIT1 & !BIT0)
+	);
+
+F =	!(
+	(BIT3 & BIT2 & !BIT1 & BIT0) #
+	(!BIT3 & !BIT2 & !BIT1 & BIT0) #
+	(!BIT3 & !BIT2 & BIT1)
+	);
+
+G =	!(
+	(BIT3 & BIT2 & !BIT1 & !BIT0) #
+	(!BIT3 & BIT2 & BIT1 & BIT0) #
+	(!BIT3 & !BIT2 & !BIT1)
+	);
+
+E =	!(
+	(!BIT3 & BIT2 & !BIT1 & !BIT0) #
+	(!BIT2 & !BIT1 & BIT0) #
+	(!BIT3 & BIT0)
+	);
+
+D =	!(
+	(BIT3 & !BIT2 & BIT1 & !BIT0) #
+	(!BIT3 & BIT2 & BIT1 & BIT0) #
+	(BIT3 & BIT2 & BIT1 & BIT0) #
+	(!BIT3 & !BIT2 & !BIT1 & BIT0) #
+	(!BIT3 & BIT2 & !BIT1 & !BIT0)
+	);
+
+C =	!(
+	(!BIT3 & !BIT2 & BIT1 & !BIT0 & !p5) #
+	(BIT3 & BIT2 & !BIT0 & !p5) #
+	(BIT3 & BIT2 & BIT1 & !p5) #
+	(!Cfb & p5)
+	);
+

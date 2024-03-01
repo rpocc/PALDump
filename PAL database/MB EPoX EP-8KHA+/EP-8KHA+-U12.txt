@@ -1,0 +1,67 @@
+# PAL Reader by Dmitry Shtatnov. Version 1.2
+# Please wait. Analyzing PAL...
+# Analyzing inputs...
+# Input 1 OK
+# Input 2 doesn't matter
+# Input 3 OK
+# Input 4 OK
+# Input 5 OK
+# Input 6 doesn't matter
+# Input 7 doesn't matter
+# Input 8 doesn't matter
+# Input 9 doesn't matter
+# Input 10 OK
+# Input 11 doesn't matter
+# Input 12 doesn't matter
+# Input 13 doesn't matter
+# Input 14 doesn't matter
+# Input 15 doesn't matter
+# Input 16 doesn't matter
+# Analyzing outputs...
+# Output 8 Buffered Output
+# Output 7 Buffered Output
+# Output 6 Buffered Output
+# Output 5 Buffered Output
+# Output 4 Buffered Output
+# Output 3 Output
+# Output 2 Output
+# Output 1 Output
+# ---------------- BERKELEY OUTPUT ----------------
+.i 5
+.o 13
+# Total inputs: 5
+.ilb p11 p5 p4 p3 p1
+.ob p19 p19_oe p18 p18_oe p17 p17_oe p16 p16_oe p15 p15_oe p14 p13 p12 
+.phase 0101010101000
+00000 1101011111110
+00001 1101010111110
+00010 1101010111110
+00011 1101110111110
+00100 1101110111110
+00101 1101011111110
+00110 1101011111111
+00111 1101011111111
+01000 1101011111110
+01001 1101010111110
+01010 1101010111110
+01011 1101110111110
+01100 1101110111110
+01101 1101011111110
+01110 1101011111111
+01111 1101011111111
+10000 1010101010110
+10001 1010101010110
+10010 1010101010110
+10011 1010101010110
+10100 1010101010110
+10101 1010101010110
+10110 1010101010111
+10111 1010101010111
+11000 1010101010110
+11001 1010101010110
+11010 1010101010110
+11011 1010101010110
+11100 1010101010110
+11101 1010101010110
+11110 1010101010111
+11111 1010101010111

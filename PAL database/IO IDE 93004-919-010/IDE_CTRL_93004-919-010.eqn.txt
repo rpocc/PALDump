@@ -1,0 +1,61 @@
+# PAL Reader by Dmitry Shtatnov. Version 1.2
+# Please wait. Analyzing PAL...
+# Analyzing inputs...
+# Input 1 OK
+# Input 2 OK
+# Input 3 OK
+# Input 4 OK
+# Input 5 OK
+# Input 6 OK
+# Input 7 OK
+# Input 8 OK
+# Input 9 OK
+# Input 10 OK
+# Input 11 doesn't matter
+# Input 12 OK
+# Input 13 OK
+# Input 14 OK
+# Input 15 doesn't matter
+# Input 16 doesn't matter
+# Analyzing outputs...
+# Output 8 Output
+# Output 7 Output
+# Output 6 Output
+# Output 5 Input
+# Output 4 Input
+# Output 3 Input
+# Output 2 Output
+# Output 1 Output
+# ---------------- BERKELEY OUTPUT ----------------
+# Total inputs: 13
+
+# p1 - A9;
+# p2 - A8;
+# p3 - A7;
+# p4 - A6;
+# p5 - A5;
+# p6 - A4;
+# p7 - A3;
+# p8 - A2;
+# p9 - A1;
+# p11 - A0;
+# p14 - IDE25/DIR(LOW);
+# p15 - AEN;
+# p16 - JP1
+# p12 - _IDE_CS1 via U7 (74244);
+# p13 - _IDE_CS0 via U7 (74244);
+# p17 - _IDE_LOW_DO_EN via U4 (74244);
+# p18 - U1.19 (74245, high data in);
+# p19 - U3.19 (74245, low data in); 
+
+p19 = (p16&!p15&!p11&p9&p8&!p7&p6&p5&p4&p3&p2) |
+      (p16&!p15&!p7&p6&p5&p4&p3&p2&!p1);
+
+p18 = (p16&!p15&!p11&!p9&!p8&!p7&p6&p5&p4&p3&p2&!p1);
+
+p17 = (p16&!p15&!p14&p11&p9&p8&!p7&p6&p5&p4&p3&p2&p1);
+
+p13 = (p16&!p15&!p7&p6&p5&p4&p3&p2&!p1);
+
+p12 = (p16&!p15&p9&p8&!p7&p6&p5&p4&p3&p2&p1);
+

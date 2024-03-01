@@ -1,0 +1,4 @@
+Original: FDD works OK
+No chip: DOesn't load
+Replacement: FDD works OK
+MFM wasn't tested

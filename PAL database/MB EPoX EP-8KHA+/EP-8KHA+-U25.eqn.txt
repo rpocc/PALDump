@@ -1,0 +1,49 @@
+# PAL Reader by Dmitry Shtatnov. Version 1.2
+# Please wait. Analyzing PAL...
+# Analyzing inputs...
+# Input 1 OK
+# Input 2 OK
+# Input 3 OK
+# Input 4 OK
+# Input 5 OK
+# Input 6 OK
+# Input 7 OK
+# Input 8 OK
+# Input 9 OK
+# Input 10 OK
+# Input 11 doesn't matter
+# Input 12 doesn't matter
+# Input 13 doesn't matter
+# Input 14 doesn't matter
+# Input 15 doesn't matter
+# Input 16 doesn't matter
+# Analyzing outputs...
+# Output 8 Output
+# Output 7 Output
+# Output 6 Output
+# Output 5 Output
+# Output 4 Output
+# Output 3 Output
+# Output 2 Output
+# Output 1 Output
+# ---------------- BERKELEY OUTPUT ----------------
+# Total inputs: 10
+p19 = (!p3&!p2&!p1) | (p4);
+
+p18 = (p9&p8&!p7&!p6) | (!p9&p8&!p7&p6) | (p9&!p8&p7&p6) | (p9&p8&p7&p6) | (
+    p8&p7&!p6);
+
+p17 = (p9&p8&!p7&p6) | (p9&!p8&p7&p6) | (!p9&p8&!p7&!p6) | (!p9&!p8&!p7
+    &p6);
+
+p16 = (p9&p8&!p7&p6) | (!p9&!p8&!p7&p6) | (!p9&!p8&p7);
+
+p15 = (p9&p8&!p7&!p6) | (!p9&p8&p7&p6) | (!p9&!p8&!p7);
+
+p14 = (!p9&p8&!p7&!p6) | (!p8&!p7&p6) | (!p9&p6);
+
+p13 = (p9&!p8&p7&!p6) | (!p9&p8&p7&p6) | (!p9&p8&!p7&!p6) | (p9&p8&p7&p6) | (
+    !p9&!p8&!p7&p6);
+
+p12 = (!p9&!p8&p7&!p6&!p5) | (p9&p8&p7&!p5) | (p9&p8&!p6&!p5) | (!p11&p5);
+

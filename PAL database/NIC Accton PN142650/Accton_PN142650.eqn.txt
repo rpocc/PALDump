@@ -1,0 +1,62 @@
+# PAL Reader by Dmitry Shtatnov. Version 1.2
+# Please wait. Analyzing PAL...
+# Analyzing inputs...
+# Input 1 OK
+# Input 2 OK
+# Input 3 OK
+# Input 4 OK
+# Input 5 doesn't matter
+# Input 6 doesn't matter
+# Input 7 doesn't matter
+# Input 8 doesn't matter
+# Input 9 doesn't matter
+# Input 10 doesn't matter
+# Input 11 doesn't matter
+# Input 12 doesn't matter
+# Input 13 doesn't matter
+# Input 14 doesn't matter
+# Input 15 doesn't matter
+# Input 16 doesn't matter
+# Analyzing outputs...
+# Output 8 Buffered Output
+# Output 7 Buffered Output
+# Output 6 Buffered Output
+# Output 5 Buffered Output
+# Output 4 Buffered Output
+# Output 3 Buffered Output
+# Output 2 Buffered Output
+# Output 1 Buffered Output
+# ---------------- BERKELEY OUTPUT ----------------
+# Total inputs: 4
+p19 = (!p4&p3&p2&p1);
+
+p19_oe = (p3&p2&p1);
+
+p18 = (!p4&p3&p2&!p1);
+
+p18_oe = (p3&p2&!p1);
+
+p17 = (!p4&p3&!p2&p1);
+
+p17_oe = (p3&!p2&p1);
+
+p16 = (!p4&p3&!p2&!p1);
+
+p16_oe = (p3&!p2&!p1);
+
+p15 = (!p4&!p3&p2&p1);
+
+p15_oe = (!p3&p2&p1);
+
+p14 = (!p4&!p3&p2&!p1);
+
+p14_oe = (!p3&p2&!p1);
+
+p13 = (!p4&!p3&!p2&p1);
+
+p13_oe = (!p3&!p2&p1);
+
+p12 = (!p4&!p3&!p2&!p1);
+
+p12_oe = (!p3&!p2&!p1);
+
