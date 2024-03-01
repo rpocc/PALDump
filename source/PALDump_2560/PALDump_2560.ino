@@ -9,8 +9,8 @@
 
  (See the full description in the README.md)
 
- Version: 1.2
- Release date: 26.02.2024
+ Version: 1.4
+ Release date: 01.03.2024
  Author: Dmitry Shtatnov (shtatnovda@yandex.ru)
  Date of initial publication: 25.02.2024
  Licence: CC BY-NC-SA 4.0 Deed
@@ -18,8 +18,8 @@
 
 
 /* Uncomment one of the lines according to your needs */
-# define GLOBAL_PAL_TYPE PAL16L8
-// # define GLOBAL_PAL_TYPE PAL20L8
+#define GLOBAL_PAL_TYPE PAL16L8
+//#define GLOBAL_PAL_TYPE PAL20L8
 
 // Three complete ([7..0]) ports, free of shared functions:
 #define GLOBAL_PORT1 PORTA
@@ -55,10 +55,10 @@ void print_full_berkeley();
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  Serial.println("# PAL Reader by Dmitry Shtatnov. Version 1.2");
+  Serial.println("# PAL Reader by Dmitry Shtatnov. Version 1.3");
  
 // Full analysis. Time-consuming for PAL20L8
-  PLA.analyzePAL();
+   PLA.analyzePAL();
 
 /* The following line can be used instead of analysis when you're
    confident that all outputs are just plain outputs or the analysis
@@ -79,6 +79,7 @@ void setup() {
 //#pragma GCC push_options
 
 void print_berkeley_line(uint32_t combination, bool shortCombination) {
+  
   char ptout[2];
   ptout[1] = 0;
   uint32_t l2, startBit;
@@ -87,6 +88,7 @@ void print_berkeley_line(uint32_t combination, bool shortCombination) {
   if(shortCombination) combinationLength = totalInputs;
   else combinationLength = PLA.getMaxInputs();
   startBit = (uint32_t)1 << (combinationLength-1);
+
   for(uint8_t j=0;j<combinationLength;j++) {
     if((uint32_t)((uint32_t)l2&(uint32_t)startBit) == 0) Serial.print("0");
     else Serial.print("1");

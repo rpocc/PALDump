@@ -1,7 +1,7 @@
 #ifndef paldump_h
 #define paldump_h
 
-#include "Arduino.h"
+#include <Arduino.h>
 #include <stdint.h>
 
 /*

@@ -30,6 +30,7 @@ PALDump::PALDump(PALType type, volatile uint8_t *port1,volatile  uint8_t *port2,
       break;
   }
 }
+
 /*
 void PALDump::getCombinatorialOutputAsText(uint32_t combination, char *buffer) {
   
@@ -70,6 +71,7 @@ char PALDump::readPALPin(uint32_t combination, uint8_t bit) {
   *HWPort3 &= IOMask;
   *HWPort3 &= negMask;
   DDR(*HWPort3) = IOMask & negMask;
+  
   DDR(PROBEPORT) |= 1<<PROBEPIN;
   PROBEPORT |= 1<<PROBEPIN;
   if((PIN(*HWPort3)&posMask) == 0) res = '0';
@@ -214,8 +216,9 @@ bool PALDump::analyzeInputs() {
     }
     checker = (uint32_t)checker << 1;
   }
-/* The next line is logical and kept for further development but currently makes it worse */
-/*  IOMask &= (((uint8_t)palInputMask>>(maxInputs-7)) | 0b10000001); */
+
+  uint8_t tmp = palInputMask>>(maxInputs-7);
+  IOMask &= (tmp | 0b10000001);
   if(palInputMask != 0) return true; else return false;
 }
 uint8_t PALDump::getActiveOutputs() {
@@ -388,6 +391,6 @@ PALDump::palPinType *PALDump::getPALConfig() {
   return (palPinType *)palPinConfigCopy;
 }
 const char *PALDump::pinType(PALDump::palPinType t) {
-  const char * names[4] = {"Output", "Buffered Output", "Input", "Unknown"};
+  const char * names[4] = {"Output", "Tri-state Output", "Input", "Unknown"};
   return names[(uint8_t)t];
 }
