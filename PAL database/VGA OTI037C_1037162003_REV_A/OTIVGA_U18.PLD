@@ -1,0 +1,35 @@
+Name     OTIVGA_U18;
+PartNo   00;
+Date     20.02.2024;
+Revision 01;
+Designer Dmitry Shtatnov;
+Company  SSSR Labs;
+Assembly 1037162003_REV_A;
+Location U18;
+Device   G16V8MA;
+
+PIN 1 = A23;
+PIN 2 = A22;
+PIN 3 = A21;
+PIN 4 = A20;
+PIN 5 = A19;
+PIN 6 = A18;
+PIN 7 = A17;
+PIN 8 = A16;
+PIN 9 = A15;
+PIN 11 = JMP;
+PIN 13 = _SBHE;
+PIN 14 = A0;
+PIN 15 = _EDBUF;
+PIN 18 = _EPROM;
+
+PIN 12 = _EVEN_LOW;
+PIN 16 = _ODD_HIGH;
+PIN 17 = _MEMCS16;
+PIN 19 = _ODD_LOW;
+
+_EVEN_LOW = !((_EPROM & !_EDBUF) # (!_EPROM & !A0));
+_ODD_HIGH = !(!_EPROM & !_SBHE & !JMP);
+_MEMCS16 = !(!JMP & !A15 & !A16 & !A17 & A18 & A19 & !A20 & !A21 & !A22 & !A23);
+_MEMCS16.OE = (!JMP & !A15 & !A16 & !A17 & A18 & A19 & !A20 & !A21 & !A22 & !A23);
+_ODD_LOW = !(!_EPROM & A0 & JMP);

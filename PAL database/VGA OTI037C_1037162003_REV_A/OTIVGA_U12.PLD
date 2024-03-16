@@ -1,0 +1,52 @@
+Name     OTIVGA_U12;
+PartNo   00;
+Date     20.02.2024;
+Revision 01;
+Designer Dmitry Shtatnov;
+Company  SSSR Labs;
+Assembly 1037162003_REV_A;
+Location U12;
+Device   G16V8MA ;
+
+PIN 1 = _REFR;
+PIN 2 = AEN;
+PIN 3 = _MEMR;
+PIN 4 = _IOR;
+PIN 5 = _IOW;
+PIN 6 = A19;
+PIN 7 = A18;
+PIN 8 = A17;
+PIN 9 = A16;
+PIN 11 = A15;
+PIN 14 = RESETDRV;
+PIN 17 = DIR;
+
+PIN 12 = ASEL;
+PIN 13 = DIR245;
+PIN 15 = RESET;
+PIN 16 = _EPROM;
+PIN 18 = _IOWR;
+PIN 19 = _IORD;
+
+ASEL = !(
+	(!A19 & _IOW & _IOR) #
+	(A18 & _IOW & _IOR) #
+	(!A17 & _IOW & _IOR) #
+	(!A19 & AEN) #
+	(A18 & AEN) #
+	(!A17 & AEN) #
+	(!_REFR)
+	);
+DIR245 = !(
+	(!DIR & _EPROM & _MEMR) #
+	(!DIR & _EPROM & A17) #
+	(!DIR & _EPROM & A16) #
+	(!DIR & _EPROM & !_REFR) #
+	(!DIR & _EPROM & !A18) #
+	(!DIR & _EPROM & A15) #
+	(!DIR & _EPROM & !A19)
+	);
+RESET = !(!RESETDRV);
+_EPROM = !(!A15 & !A16 & !A17 & A18 & A19 & !_MEMR & _REFR);
+_IOWR = !(!_IOW & !AEN);
+_IORD = !(!_IOR & !AEN);

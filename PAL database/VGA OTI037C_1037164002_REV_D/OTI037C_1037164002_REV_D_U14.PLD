@@ -1,0 +1,37 @@
+Name     OTI037C_1037164002_REV_D_U14;
+PartNo   1001640020 ;
+Date     20.02.2024 ;
+Revision 01 ;
+Designer Dmitry Shtatnov ;
+Company  SSSR Labs ;
+Assembly OTI037C_1037164002_REV_D;
+Location U14;
+Device   G16V8MA ;
+
+/* *************** INPUT PINS *********************/
+PIN 1		= A19		;
+PIN 2		= A18		;
+PIN 3		= A17		;
+PIN 4		= A16		;
+PIN 5		= A15		;
+PIN 6		= _SBHE	;
+PIN 7		= A0		;
+PIN 8		= JMP		;
+PIN 9		= _MEMR	;
+PIN 11		= A23_A20	;
+PIN 13		= LA17		;
+PIN 16		= LA18		;
+PIN 18		= LA19		;
+/* *************** OUTPUT PINS *********************/
+PIN 12		= _ODD_HIGH	;
+PIN 14		= _ODD_LOW	;
+PIN 15		= _EPROM	;
+PIN 17		= _MEMCS16	;
+PIN 19		= _EVEN_LOW	;
+
+_EPROM =     !( !_MEMR & !A15 & !A16 & !A17 & A18 & A19);
+_ODD_HIGH =  !( !JMP & !_SBHE & !_MEMR & !A15 & !A16 & !A17 & A18 & A19);
+_ODD_LOW =   !( A0 &	 JMP &		   !_MEMR & !A15 & !A16 & !A17 & A18 & A19);
+_EVEN_LOW =  !( !A0 &		   !_MEMR & !A15 & !A16 & !A17 & A18 & A19);
+_MEMCS16 =   !( !JMP & !A15 & !A16 & !LA17 & LA18 & LA19 & !A23_A20);
+_MEMCS16.OE = ( !JMP & !A15 & !A16 & !LA17 & LA18 & LA19 & !A23_A20);

@@ -1,0 +1,57 @@
+Name     OTI037C_1037164002_REV_D_U24;
+PartNo   1001640010;
+Date     16.03.2024;
+Revision 01;
+Designer Dmitry Shtatnov;
+Company  SSSR Labs;
+Assembly OTI037C_1037164002_REV_D;
+Location U24;
+Device   G16V8MA;
+
+PIN 1 = A19;
+PIN 2 = A18;
+PIN 3 = A17;
+PIN 4 = A9;
+PIN 5 = A8;
+PIN 6 = A7;
+PIN 7 = A6;
+PIN 8 = A5;
+PIN 9 = A4;
+PIN 11 = AEN;
+PIN 13 = _REFR;
+PIN 15 = _IOW;
+PIN 16 = _IOR;
+PIN 18 = RESETDRV;
+
+PIN 12 = _IOWR;
+PIN 14 = _IORD;
+PIN 17 = ASEL;
+PIN 19 = RESET;
+
+_IOWR = !(!_IOW & !AEN);
+_IORD = !(!_IOR & !AEN);
+
+/*	Inverted version for simple mode
+
+_ASEL = !(
+	(!_IOW & _REFR & !AEN & A4 & A5 & !A6 & A7 & A8 & A9) #
+	(!_IOR & _REFR & !AEN & A4 & A5 & !A6 & A7 & A8 & A9) #
+	(!_IOW & _REFR & !AEN & !A5 & A6 & A7 & A8 & A9) #
+	(!_IOR & _REFR & !AEN & !A5 & A6 & A7 & A8 & A9) #
+	(_REFR & A17 & !A18 & A19)
+	);
+*/
+ASEL = (
+	(!A19 & _IOW & _IOR) #
+	(A18 & _IOW & _IOR) #
+	(!A17 & _IOW & _IOR) #
+	(!A19 & AEN) #
+	(A18 & AEN) #
+	(!A17 & AEN) #
+	(!_REFR)
+	);
+
+
+RESET = !(!RESETDRV);
+
+
