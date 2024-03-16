@@ -1,0 +1,56 @@
+Name     S16V_U21_FDD_BYPASS ;
+PartNo    ;
+Date     15.03.2024 ;
+Revision 01 ;
+Designer Dmitry Shtatnov ;
+Company  SSSR Labs ;
+Assembly None ;
+Location U21;
+Device   g16v8ma ;
+
+$DEFINE	false		'b'0
+$DEFINE	true		'b'1
+$DEFINE	disabled	'b'1
+
+
+
+
+
+/* WARNING!
+   THIS FILE DOESN'T COMPILE LINE 2048 WITH XOR SETTINGS!
+   ALL OUTPUT POLARITY MUST BE SET TO INVERTED (0)!
+   THE OUTPUT JED FILE MUST CONTAIN THE FOLLOWING LINE:
+   *L02048 00000000001100000011000000100000
+*/   
+
+/* Inputs */
+PIN 1 = A1;
+PIN 2 = A2;
+PIN 3 = A3;
+PIN 4 = A4;
+PIN 5 = A5;
+PIN 6 = A6;
+PIN 7 = A7;
+PIN 8 = A8;
+PIN 9 = A9;
+PIN 11 = AEN;
+PIN 13 = !IOR;
+PIN 14 = !DACK2;
+PIN 15 = !ROM0;
+PIN 18 = !ROM1;
+
+/* Outputs */
+PIN 12 = !EPROM_OE;
+PIN 16 = !LDOR;
+PIN 17 = !FDD_CS;
+PIN 19 = !IO_READ;
+
+/* Equations */
+EPROM_OE =      (ROM0) # (ROM1);
+LDOR = false;
+FDD_CS = false;
+IO_READ =	(IOR & !AEN & A9 & A8 & A7 & A6 & A5 & A4 & A3 & A2 & !A1) #
+		(IOR & !AEN & A9 & A8 & A7 & A6 & A5 & A4 & A3 & !A2 & A1) #
+		(IOR & !AEN & A9 & A8 & A6 & A5 & A4 & A3) #
+		(IOR & !AEN & A9 & !A7 & A6 & !A5) #
+		(DACK2 & IOR);
