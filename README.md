@@ -19,6 +19,9 @@ Requirements:
  9. Installed Espresso Logic Minimizer. (Free)
 10. A CPLD development software such as Atmel WinCUPL for generating the .jed files
 
+![PALDumper Wiring](https://raw.githubusercontent.com/rpocc/PALDump/refs/heads/main/PALDumper%20Wiring.png)
+
+
 Usage:
  1. Connect the PLA chip to the Arduino as shown on the schematic (See PALDump.h)
  2. Set the constant PALDump::PALType globalPALType to PAL16L8 or PAL20L8
